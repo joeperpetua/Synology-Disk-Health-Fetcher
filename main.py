@@ -5,6 +5,8 @@ from urllib.request import Request, urlopen
 
 logging.basicConfig(filename='sdhf.log', level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
+URL = 'https://requestinspector.com/inspect/sdhf'
+PERIOD = 30
 # DEV_URL = ["./tmp/data-dev.json", "./tmp/data-dev-old.json"]
 
 def smartDataByID(id):
@@ -242,10 +244,8 @@ def getDisks(latest_path, oldest_path):
     return disks
 
 def main():
-    url = 'https://requestinspector.com/inspect/smart_data_api'
-    period = 30
     query = {}
-    logging.info(f'Running verification with period of {period} days.')
+    logging.info(f'Running verification with period of {PERIOD} days.')
     try:
         with open('/proc/sys/kernel/syno_serial') as f:
             query['NAS_SN'] = f.read().replace('\n', '')
@@ -256,7 +256,7 @@ def main():
         exit()
 
     try:
-        latest_path, oldest_path = getFiles(period)
+        latest_path, oldest_path = getFiles(PERIOD)
     except:
         logging.exception('Getting disk prediction files failed.')
         logging.warning(f'Stopping without success.')
@@ -269,7 +269,7 @@ def main():
         logging.warning(f'Stopping without success.')
         exit()
 
-    request = Request(url, json.dumps(query).encode('utf-8'))
+    request = Request(URL, json.dumps(query).encode('utf-8'))
     request.add_header('Content-Type', 'application/json')
     try:
         urlopen(request)
