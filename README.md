@@ -248,7 +248,7 @@ A normal script execution will be logged as:
 ## Setup:
 It is highly suggested to run this script on an independent shared folder subfolder. Please avoid running custom scripts in the root partition of your NAS.  
   
-You can [download](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/releases/tag/v1.0.0) the script and run it daily with a scheduled task made from DSM Control Panel.  
+You can [download](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/releases) the script and run it daily with a scheduled task made from DSM Control Panel.  
 [Task Scheduler - Documentation](https://kb.synology.com/DSM/help/DSM/AdminCenter/system_taskscheduler?version=7)  
 [Tips for creating tasks and writing scripts in Task Scheduler](https://kb.synology.com/DSM/tutorial/common_mistake_in_task_scheduler_script)  
   
