@@ -227,7 +227,10 @@ def getDisks(latest_path, oldest_path):
     
     for disk in latest_disks:
         current_disk = initDisk(disk)
-        current_disk = checkSmart(current_disk, ids_to_check)
+        if "nvme" not in current_disk['path']:
+            current_disk = checkSmart(current_disk, ids_to_check)
+        else:
+            logging.info(f"Disk {current_disk['serial']} is nvme, skipping SMART ID check.")
         current_disk = checkKern(current_disk, kernel_errs_to_check)
         current_disk = checkStatus(current_disk)
         disks.append(current_disk)
@@ -239,7 +242,8 @@ def getDisks(latest_path, oldest_path):
             old_disk = initDisk(old_disk)
             for disk in disks:
                 if old_disk['serial'] == disk['serial']:
-                    old_disk = checkSmart(old_disk, ids_to_check)
+                    if "nvme" not in current_disk['path']:
+                        old_disk = checkSmart(old_disk, ids_to_check)
                     old_disk = checkKern(old_disk, kernel_errs_to_check)
                     disk = compareFlags(old_disk, disk)
         oldest_file.close()
