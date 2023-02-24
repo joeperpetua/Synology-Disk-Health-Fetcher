@@ -282,7 +282,7 @@ def main():
         urlopen(request)
     except:
         logging.exception('POST request failed.')
-        logging.warn(f'Stopping without success.')
+        logging.warning(f'Stopping without success.')
         exit()
     else:
         logging.info(f'SMART data sent to server successfully.')
