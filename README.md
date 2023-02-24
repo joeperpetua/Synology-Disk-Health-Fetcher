@@ -227,13 +227,13 @@ The most relevant attributes in the disk objects are:
 ## Usage:
 #### API URL:
 In order to make the script functional, it will be needed to set the API URL to where the data will be sent.  
-This can be set in the global URL variable, [line 8](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/blob/main/main.py?plain=1#L8). The default URL is a testing URL from [Request Inspector](https://requestinspector.com):
+This can be set in the global URL variable, [line 9](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/blob/main/main.py?plain=1#L9). The default URL is a testing URL from [Request Inspector](https://requestinspector.com):
 ```python
 URL = 'https://requestinspector.com/inspect/sdhf'
 ```
 #### Period to check:
 The time period to check for value increments is specified in days and the default value will be 30 days.  
-This can be changed in the global PERIOD variable, [line 9](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/blob/main/main.py?plain=1#L9).
+This can be changed in the global PERIOD variable, [line 10](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/blob/main/main.py?plain=1#L10).
 ```python
 PERIOD = 30
 ```
