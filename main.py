@@ -1,6 +1,7 @@
 import glob
 import json
 import logging
+import re
 from urllib.request import Request, urlopen
 
 logging.basicConfig(filename='sdhf.log', level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
@@ -149,12 +150,13 @@ def checkSmart(current_disk, ids_to_check):
     """
     for attr in current_disk['smart_attr']:
         for id in ids_to_check:
-            if int(attr[0]) == id and int(attr[4]) > 0:
+            value = int(float(re.sub("[^0-9.]", "", attr[4])))
+            if int(attr[0]) == id and value > 0:
                 flag_item = {
                     "name": smartDataByID(attr[0])['name'],
                     "desc": smartDataByID(attr[0])['description'],
-                    "value": int(attr[4]),
-                    "increment": int(attr[4])
+                    "value": value,
+                    "increment": value
                 }
                 current_disk['flag'].append(flag_item)
                 current_disk['status'] = "warning"
@@ -172,12 +174,13 @@ def checkKern(current_disk, kernel_errs_to_check):
     """
     for key in current_disk['kernel_err']:
         for err in kernel_errs_to_check:
-            if key == err and int(current_disk['kernel_err'][key]) > 0:
+            value = int(float(current_disk['kernel_err'][key]))
+            if key == err and value > 0:
                 flag_item = {
                     "name": kernelErr(key)['name'],
                     "desc": kernelErr(key)['description'],
-                    "value": int(current_disk['kernel_err'][key]),
-                    "increment": int(current_disk['kernel_err'][key])
+                    "value": value,
+                    "increment": value
                 }
                 current_disk['flag'].append(flag_item)
                 current_disk['status'] = "warning"
