@@ -248,7 +248,7 @@ def main():
     logging.info(f'Running verification with period of {period} days.')
     try:
         with open('/proc/sys/kernel/syno_serial') as f:
-            query['NAS_SN'] = f.read()
+            query['NAS_SN'] = f.read().replace('\n', '')
             f.close()
     except: 
         logging.exception('Getting NAS serial number failed.')
