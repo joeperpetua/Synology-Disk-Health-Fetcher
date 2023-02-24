@@ -1,8 +1,11 @@
 import glob
 import json
-import requests
+import logging
+from urllib.request import Request, urlopen
 from lib.smartInfo import smartDataByID
 from lib.kernInfo import kernelErr
+
+logging.basicConfig(filename='smart-data.log', level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 # DEV_URL = ["./tmp/data-dev.json", "./tmp/data-dev-old.json"]
 
@@ -168,17 +171,14 @@ def getDisks(latest_path, oldest_path):
                     old_disk = checkKern(old_disk, kernel_errs_to_check)
                     disk = compareFlags(old_disk, disk)
         oldest_file.close()
-
-    for disk in disks:
-        if disk['status'] != 'normal':
-            print("\nDisk: ", disk['serial'], "Status: ", disk['status'], disk['flag'])
     
     return disks
 
 def main():
-    url = 'http://dev.smart.joeper.myds.me/'
+    url = 'https://requestinspector.com/inspect/smart_data_api'
     period = 30
     query = {}
+    logging.info(f'Running verification with period of {period} days.')
 
     with open('/proc/sys/kernel/syno_serial') as f:
         query['serial_number'] = f.read()
@@ -186,11 +186,14 @@ def main():
     latest_path, oldest_path = getFiles(period)
     query['disks'] = getDisks(latest_path, oldest_path)
 
-    response = requests.post(url, data=query)
-    print(response)
-
-
-
+    request = Request(url, json.dumps(query).encode('utf-8'))
+    request.add_header('Content-Type', 'application/json')
+    try:
+        urlopen(request)
+    except:
+        logging.exception('POST request failed.')
+    else:
+        logging.info(f'SMART data sent to server successfully.')
 
 if __name__ == "__main__":
     main()
