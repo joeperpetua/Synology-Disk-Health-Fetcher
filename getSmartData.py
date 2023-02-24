@@ -246,12 +246,28 @@ def main():
     period = 30
     query = {}
     logging.info(f'Running verification with period of {period} days.')
+    try:
+        with open('/proc/sys/kernel/syno_serial') as f:
+            query['NAS_SN'] = f.read()
+            f.close()
+    except: 
+        logging.exception('Getting NAS serial number failed.')
+        logging.warning(f'Stopping without success.')
+        exit()
 
-    with open('/proc/sys/kernel/syno_serial') as f:
-        query['serial_number'] = f.read()
-        f.close()
-    latest_path, oldest_path = getFiles(period)
-    query['disks'] = getDisks(latest_path, oldest_path)
+    try:
+        latest_path, oldest_path = getFiles(period)
+    except:
+        logging.exception('Getting disk prediction files failed.')
+        logging.warning(f'Stopping without success.')
+        exit()
+
+    try:
+        query['disks'] = getDisks(latest_path, oldest_path)
+    except:
+        logging.exception('Getting disk data failed.')
+        logging.warning(f'Stopping without success.')
+        exit()
 
     request = Request(url, json.dumps(query).encode('utf-8'))
     request.add_header('Content-Type', 'application/json')
@@ -259,6 +275,8 @@ def main():
         urlopen(request)
     except:
         logging.exception('POST request failed.')
+        logging.warn(f'Stopping without success.')
+        exit()
     else:
         logging.info(f'SMART data sent to server successfully.')
 
