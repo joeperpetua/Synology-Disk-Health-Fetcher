@@ -3,7 +3,7 @@ import json
 import logging
 from urllib.request import Request, urlopen
 
-logging.basicConfig(filename='smart-data.log', level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+logging.basicConfig(filename='sdhf.log', level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
 
 # DEV_URL = ["./tmp/data-dev.json", "./tmp/data-dev-old.json"]
 
