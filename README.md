@@ -224,7 +224,7 @@ The most relevant attributes in the disk objects are:
   ```
 </details>
 
-## Usage:
+## Usage
 #### API URL:
 In order to make the script functional, it will be needed to set the API URL to where the data will be sent.  
 This can be set in the global URL variable, [line 9](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/blob/main/main.py?plain=1#L9). The default URL is a testing URL from [Request Inspector](https://requestinspector.com):
@@ -245,7 +245,7 @@ A normal script execution will be logged as:
 2023-02-24 19:15:41,468 [INFO] SMART data sent to server successfully.
 ```
 
-## Setup:
+## Setup
 It is highly suggested to run this script on an independent shared folder subfolder. Please avoid running custom scripts in the root partition of your NAS.  
   
 You can [download](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/releases) the script and run it daily with a scheduled task made from DSM Control Panel.  
@@ -260,6 +260,10 @@ python /volume1/homes/admin/SDHF/main.py
   
 Please be aware that the script runs on Python 3 only. This is installed by default in DSM 7.
 
+## Disclaimer
+Please bare in mind that this is just meant to give an approximation/predictive status of the disks health.  
+Depending on the manufacturer of the disk, the SMART values will be different and some false alerts may be present when running the script in your system.  
+It is suggested to double check the disk status every time a warning is received.
 
 ## Issues
 In case of finding any issues or bugs, please [create an issue](https://github.com/joeperpetua/Synology-Disk-Health-Fetcher/issues/new) in the repository.
